@@ -1,17 +1,31 @@
 #!/usr/bin/python3
 """Defines the BaseModel Class"""
-import uuid
+from uuid import uuid4
 from datetime import datetime
 
 
 class BaseModel:
     """Defines the BaseModel Class"""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initializes an instance of BaseModel"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "id":
+                    self.id = value
+                elif key == "created_at":
+                    self.created_at = datetime.fromisoformat(value)
+                elif key == "updated_at":
+                    self.updated_at = datetime.fromisoformat(value)
+                elif key == "__class__":
+                    pass
+                else:
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns the object representation in string format"""
