@@ -1,31 +1,43 @@
 #!/usr/bin/python3
-"""Defines unittests for base_model.py"""
+"""test BaseModel"""
 import unittest
+import os
 from models.base_model import BaseModel
-from datetime import datetime
-import models
+import pep8
+
+class TestBaseModel(unittest.TestCase):
+    """test BaseModel"""
+
+    def setUp(self):
+        self.testbasemodel = BaseModel()
+
+    def test_pep8_BaseModel(self):
+        """Testing for pep8"""
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(['models/base_model.py'])
+        self.assertEqual(p.total_errors, 0, "Check pep8")
 
 
-class TestBaseModel_instantiation(unittest.TestCase):
-    """Unittests for testung the Instantitation of the
-    BaseModel class."""
+    def test_save_BaesModel(self):
+        """test save_Basemodel"""
+        self.base.save()
+        self.assertNotEqual(self.base.created_at, self.base.updated_at)
 
-    def test_no_arg(self):
-        self.assertEqual(BaseModel, type(BaseModel()))
+    def test_doc(self):
+        """ Tests doc """
+        self.assertisNotNone(BaseModel.__doc__)
 
-    def test_id_is_string(self):
-        self.assertEqual(str, type(BaseModel().id))
+    def test_to_json(self):
+        '''test to jason'''
 
-    def test_created_at_is_datetime(self):
-        self.assertEqual(datetime, type(BaseModel().created_at))
+    def test_kwarg(self):
+        basemodel = BaseModel(name="base")
+        self.assertEqual(type(basemodel).__name__, "BaseModel")
+        self.assertFalse(hasattr(basemodel, "id"))
+        self.assertFalse(hasattr(basemodel, "created_at"))
+        self.assertTrue(hasattr(basemodel, "name"))
+        self.assertFalse(hasattr(basemodel, "updated_at"))
+        self.assertTrue(hasattr(basemodel, "__class__"))
 
-    def test_created_at_is_datetime(self):
-        self.assertEqual(datetime, type(BaseModel().updated_at))
-
-    def test_unique_id(self):
-        obj1 = BaseModel()
-        obj2 = BaseModel()
-        self.assertNotEqual(obj1.id, obj2.id)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
