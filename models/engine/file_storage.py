@@ -2,7 +2,11 @@
 """Defines FileStorage class"""
 import json
 from models.base_model import BaseModel
+from models.user import User
 from os.path import exists
+
+
+classes = ['BaseModel', 'User']
 
 
 class FileStorage:
@@ -35,4 +39,6 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as file:
                 dict_rep = json.load(file)
             for key, value in dict_rep.items():
-                FileStorage.__objects[key] = BaseModel(**value)
+                class_name = key.split()[0]
+                if class_name in classes:
+                    FileStorage.__objects[key] = eval(class_name)(**value)
