@@ -78,7 +78,7 @@ class HBNBCommand(cmd.Cmd):
         on the class name"""
         if args != "":
             args = args.split()
-            if args[0]  == "BaseModel":
+            if args[0] == "BaseModel":
                 all_obj = storage.all()
                 all_obj_list = []
                 for key, obj in all_obj.items():
@@ -105,7 +105,7 @@ class HBNBCommand(cmd.Cmd):
         the_dict = storage.all()
         key = "{}.{}".format(args[0], args[1])
         obj = the_dict.get(key)
-        if obj == None:
+        if obj is None:
             print("** no instance found **")
             return
         if len(args) < 3:
@@ -116,6 +116,7 @@ class HBNBCommand(cmd.Cmd):
             return
         setattr(obj, args[2], args[3])
         storage.save()
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
