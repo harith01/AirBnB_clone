@@ -2,7 +2,11 @@
 """Creates a Console"""
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
+
+
+classes = ['BaseModel', 'User']
 
 
 class HBNBCommand(cmd.Cmd):
@@ -27,10 +31,11 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        if arg != "BaseModel":
+        arg = arg.split()[0]
+        if arg not in classes:
             print("** class doesn't exist **")
             return
-        obj = BaseModel()
+        obj = eval(arg)()
         obj.save()
         print(obj.id)
 
@@ -41,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         args = args.split()
-        if args[0] != "BaseModel":
+        if args[0] not in classes:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
@@ -59,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         args = args.split()
-        if args[0] != 'BaseModel':
+        if args[0] not in classes:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
@@ -78,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
         on the class name"""
         if args != "":
             args = args.split()
-            if args[0] == "BaseModel":
+            if args[0] not in classes:
                 all_obj = storage.all()
                 all_obj_list = []
                 for key, obj in all_obj.items():
@@ -96,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         args = args.split()
-        if args[0] != "BaseModel":
+        if args[0] not in classes:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
