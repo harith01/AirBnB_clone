@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
                 all_obj = storage.all()
                 all_obj_list = []
                 for key, obj in all_obj.items():
-                    all_obj_list.append(str(all_obj[key]))
+                    all_obj_list.append(str(obj))
                 print(all_obj_list)
             else:
                 print("** class doesn't exist **")
