@@ -6,14 +6,13 @@ from models.user import User
 from os.path import exists
 
 
-classes = ['BaseModel', 'User']
-
 
 class FileStorage:
     """Defines FileStorage Class"""
 
     __file_path = "file.json"
     __objects = {}
+    class_dict = {"BaseModel": BaseModel, "User": User}
 
     def all(self):
         """Return class attribute <__objects>"""
@@ -39,6 +38,5 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as file:
                 dict_rep = json.load(file)
             for key, value in dict_rep.items():
-                class_name = key.split()[0]
-                if class_name in classes:
-                    FileStorage.__objects[key] = eval(class_name)(**value)
+                obj = self.class_dict[value['__class__']](**value)
+                FileStorage.__objects[key] = obj
