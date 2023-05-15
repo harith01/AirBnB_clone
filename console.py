@@ -3,10 +3,21 @@
 import cmd
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
+from models.city import City
+from models.amenity import Amenity
+from models.state import State
+from models.review import Review
 from models import storage
 
 
-classes = ['BaseModel', 'User']
+classes = ['BaseModel',
+           'User',
+           'Place',
+           'City',
+           'Amenity',
+           'State',
+           'Review']
 
 
 class HBNBCommand(cmd.Cmd):
@@ -83,7 +94,7 @@ class HBNBCommand(cmd.Cmd):
         on the class name"""
         if args != "":
             args = args.split()
-            if args[0] not in classes:
+            if args[0] in classes:
                 all_obj = storage.all()
                 all_obj_list = []
                 for key, obj in all_obj.items():

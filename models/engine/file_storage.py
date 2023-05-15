@@ -3,8 +3,12 @@
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.city import City
+from models.state import State
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 from os.path import exists
-
 
 
 class FileStorage:
@@ -12,7 +16,13 @@ class FileStorage:
 
     __file_path = "file.json"
     __objects = {}
-    class_dict = {"BaseModel": BaseModel, "User": User}
+    class_dict = {"BaseModel": BaseModel,
+                  "User": User,
+                  "City": City,
+                  "State": State,
+                  "Place": Place,
+                  "Amenity": Amenity,
+                  "Review": Review}
 
     def all(self):
         """Return class attribute <__objects>"""
