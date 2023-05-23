@@ -36,8 +36,8 @@
     margin-left: 20px;
 }
 
-.amenities {
-    border-left: 1px solid #DDDDDD;
+.locations {
+    border-right: 1px solid #DDDDDD;
 }
 
 .locations h4, .amenities h4 {
