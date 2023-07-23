@@ -20,6 +20,34 @@ classes = ['BaseModel',
            'Review']
 
 
+def line_parser(line):
+    """Parses the parameters of console command
+    into a dictionary"""
+    kwargs = {}
+    args = line.split(" ")
+    class_name = args[0]
+    params = args[1:]
+    for param in params:
+        if "=" in param:
+            param = param.split("=")
+            key = param[0]
+            value = param[1]
+            if value[0] == value[-1] == '"':
+                value = value.strip('/"').replace("_", " ")
+            else:
+                try:
+                    value = eval(value)
+                except Exception:
+                    continue
+            if type(value) not in [int, str, float]:
+                continue
+            else:
+                kwargs[key] = value
+        else:
+            continue
+    return class_name, kwargs
+
+
 class HBNBCommand(cmd.Cmd):
     """Defines the console class"""
 
@@ -42,11 +70,11 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        arg = arg.split()[0]
-        if arg not in classes:
+        class_name, kwargs = line_parser(arg)
+        if class_name not in classes:
             print("** class doesn't exist **")
             return
-        obj = eval(arg)()
+        obj = eval(class_name)(**kwargs)
         obj.save()
         print(obj.id)
 
